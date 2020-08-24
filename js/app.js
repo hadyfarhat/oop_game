@@ -9,3 +9,13 @@ document.querySelector('#qwerty').addEventListener('click', e => {
         game.handleInteraction(e.target);
     }
 });
+
+document.addEventListener('keyup', e => {
+    if (game.enableKeyPress) {
+        const keys = document.querySelectorAll('#qwerty button.key');
+        for (let i = 0; i < keys.length; ++i) {
+            if (keys[i].textContent == e.code[3].toLowerCase())
+                game.handleInteraction(keys[i]);
+        }
+    }
+});

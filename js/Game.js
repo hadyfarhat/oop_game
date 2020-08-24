@@ -3,6 +3,7 @@ class Game {
         this.missed = 0;
         this.phrases = this.createPhrases();
         this.activePhrase = null;
+        this.enableKeyPress = false;
     }
 
     /**
@@ -43,6 +44,7 @@ class Game {
         document.querySelector("#overlay").style.display = "none";
         this.activePhrase = this.getRandomPhrase();
         this.activePhrase.addPhraseToDisplay();
+        this.enableKeyPress = true;
     }
 
     /**
@@ -75,12 +77,13 @@ class Game {
         overlay.style.display = "";
         const h1 = document.querySelector('h1#game-over-message');
 
+        overlay.classList.remove("start", "win", "lose");
         if (outcome) {
             h1.textContent = "You won!";
-            overlay.classList.replace("start", "win");
+            overlay.classList.add("win");
         } else {
             h1.textContent = "You lost!";
-            overlay.classList.replace("start", "lose");
+            overlay.classList.add("lose");
         }
     }
 
@@ -120,6 +123,7 @@ class Game {
      */
     reset() {
         this.missed = 0;
+        this.enableKeyPress = false;
         
         const phraseLettersList = document.querySelectorAll(
             "div#phrase li.letter"
