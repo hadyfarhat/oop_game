@@ -39,6 +39,7 @@ class Game {
      * Hide overlay, choose random phrase and display it on board
      */
     startGame() {
+        this.reset();
         document.querySelector("#overlay").style.display = "none";
         this.activePhrase = this.getRandomPhrase();
         this.activePhrase.addPhraseToDisplay();
@@ -101,6 +102,7 @@ class Game {
      * @param {button HTML element} letter - letter being clicked
      */
     handleInteraction(letter) {
+        letter.disabled = true;
         if (this.activePhrase.checkLetter(letter.textContent)) {
             letter.classList.add('chosen');
             this.activePhrase.showMatchedLetters(letter.textContent);
@@ -110,6 +112,31 @@ class Game {
         } else {
             letter.classList.add('wrong');
             this.removeLife();
+        }
+    }
+
+    /**
+     * Resets the game
+     */
+    reset() {
+        this.missed = 0;
+        
+        const phraseLettersList = document.querySelectorAll(
+            "div#phrase li.letter"
+        );
+        for (let i = 0; i < phraseLettersList.length; ++i) {
+            phraseLettersList[i].remove();
+        }
+
+        const keys = document.querySelectorAll('#qwerty button.key');
+        for (let i = 0; i < keys.length; ++i) {
+            keys[i].classList.remove('chosen', 'wrong');
+            keys[i].disabled = false;
+        }
+
+        const hearts = document.querySelectorAll('#scoreboard img');
+        for (let i = 0; i < hearts.length; ++i) {
+            hearts[i].setAttribute('src', 'images/liveHeart.png');
         }
     }
 }
